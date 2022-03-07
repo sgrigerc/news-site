@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  {% for post in servs %}
+    <div class="text-center alert mt-5">
+      <h1 class="display-3 mb-2 mt-5"><strong>{{ post.title }}</strong></h1>
+      <h3 class="display-6 mt-2"><strong>{{ post.text }}</strong></h3>
+      {% comment %} <button class="text-light border-2 bg-danger rounded mt-3 mb-5">{{ post.date }}</button> {% endcomment %}
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block aside_block %}
+<h4 class="mt-2">Интересные статьи</h4>
+<img src="https://itproger.com/img/news/1589893627.jpg" class="img-thumbnail">
+<p>Для многих Python - это язык для написания веб проектов, машинного обучения или для анализа данных. На самом деле он более функционален и в этой статье мы вам это докажем.</p>
+
+<a href="https://itproger.com/news/285" target="_blank">
+  <button class="btn btn-warning">Посмотреть</button>
+</a>
+
+<img src="https://itproger.com/img/news/1591879929.jpg" class="img-thumbnail mt-4">
+<p>Уже не первый год слышно много положительных отзывов про движок Godot. Пришло время узнать больше об этом движке и выяснить почему он столь популярен.</p>
+
+<a href="https://itproger.com/news/285" target="_blank">
+  <button class="btn btn-warning">Посмотреть</button>
+</a>
+{% endblock %}

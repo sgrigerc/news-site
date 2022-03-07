@@ -1,0 +1,1 @@
+web: gunicorn dj1.wsgi

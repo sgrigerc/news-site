@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+  Восстановление пароля
+{% endblock %}
+
+{% block content %}
+  <h1>Восстановление пароля</h1>
+  <form method="post" class="form-register auth">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button class="btn btn-danger" type="submit">Запросить новый пароль</button>
+        
+  </form>
+{% endblock %}
+
