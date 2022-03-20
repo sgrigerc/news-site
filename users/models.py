@@ -4,10 +4,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 class Profile(models.Model):
-    CHEL_CHOICES = (
-        ('male', 'Мужской'),
-        ('female', 'Женский'),
-    )
+    CHEL_CHOICES = (('male', 'Мужской'),('female', 'Женский'))
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     img = models.ImageField('Фото пользователя', default='default.png', upload_to='user_images')

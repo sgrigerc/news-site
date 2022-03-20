@@ -1,26 +1,13 @@
 {% extends 'blog/base.html' %}
 
-
 {% block content %}
-  {% for post in servs %}
-    <div class="text-center alert mt-5">
-        <h1 class="display-3 mb-2 mt-5"><strong>{{ post.title }}</strong></h1>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-        <h3 class="col-md-6 col-xl-4 display-6 mt-2 text-center"><strong>{{ post.table_n_1 }}</strong></h3>
-        <h3 class="col-md-6 col-xl-4 display-6 mt-2 text-center"><strong>{{ post.table_n_2 }}</strong></h3>
-        <h3 class="col-md-6 col-xl-4 display-6 mt-2 text-center"><strong>{{ post.table_n_3 }}</strong></h3>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-        <p class="col-md-6 col-xl-4 mt-2">{{ post.clmn_1 }}</p>
-        <p class="col-md-6 col-xl-4 mt-2">{{ post.clmn_2 }}</p>
-        <p class="col-md-6 col-xl-4 mt-2">{{ post.clmn_3 }}</p>
-        </div>
-    </div>
-  {% endfor %}
+  <h3>{{title}}</h3>
+  <form action="{% url 'contacti' %}"  method="post" >
+    {% csrf_token %}
+    {{ UserAppealForm.as_p }}
+    <hr>
+    <button type="submit">Отправить</button>
+  </form>
 {% endblock %}
 
 {% block aside_block %}

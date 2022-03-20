@@ -53,7 +53,7 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email']         #, 'gender_f', 'mail_agreement'
+        fields = ['username', 'email']  
 
 
 class ProfileImageForm(forms.ModelForm):
@@ -79,5 +79,3 @@ class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['img', 'gender_f', 'mail_agreement']
-
-
