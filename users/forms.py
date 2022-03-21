@@ -72,8 +72,7 @@ class ProfileImageForm(forms.ModelForm):
     
     mail_agreement = forms.BooleanField( 
         label= 'Соглашение на отправку уведомлений на почту',
-        required= False,
-        # widget= forms.BooleanField(attrs={'class': 'form-check-input'})
+        required= False
     )
 
     class Meta:

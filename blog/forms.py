@@ -8,11 +8,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Messages
 
 class UserAppealForm(forms.Form):
-    mes_subject = forms.CharField(
-        label= 'Тема письма', 
+    title = forms.CharField(
+        label= 'Тема', 
         max_length=150, 
         required=True,
-        widget=forms.TextInput(attrs={'class': 'form-input'})
+        widget=forms.TextInput(attrs={'class': 'bs-docs-example form-inline', 'placeholder': 'Theme'})
         )
     
     email = forms.EmailField(
@@ -28,6 +28,6 @@ class UserAppealForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'bs-docs-example form-inline', 'placeholder': 'Text message'})
         )
     
-    # class Meta:
-    #     model = Messages
-    #     fields = ['mes_subject', 'email', 'text_message']
+    class Meta:
+        model = Messages
+        fields = ['title', 'email', 'text_message']

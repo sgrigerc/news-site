@@ -25,13 +25,10 @@ class News(models.Model):
 
 class Messages(models.Model):
     avtor = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE)
-    mes_subject = models.CharField('Тема письма', max_length=200, unique=True)
+    title = models.CharField('Тема', max_length=200, unique=True)
     email = models.EmailField('Email')
     text_message = models.CharField('Текст сообщения', max_length=500)
     date = models.DateTimeField('Дата', default=timezone.now)
-    
-    def get_absolute_url(self):
-        return reverse("contacti", kwargs={"pk": self.pk})
     
     def __str__(self):
         return f'{self.title}'

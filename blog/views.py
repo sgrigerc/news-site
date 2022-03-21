@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, get_list_or_404
 from django.contrib.auth.models import User
 from .models import News, Messages
 from .forms import UserAppealForm
-from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
@@ -104,9 +104,8 @@ def contacti(request):
     if request.method == 'POST':
         form = UserAppealForm(request.POST)
         if form.is_valid():
-            UserAppealForm.save()
             messages.success(request, f'Сообщение успешно отправлено!')
-            return redirect('contacti')
+            return redirect('home')
     else:
         form = UserAppealForm()
         
@@ -124,10 +123,6 @@ def uslugi(request):
             'clmn_2': 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
             'clmn_3': 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
         }
-    ]   
-    cont = {
-        'servs': servs,
-        'title': 'Услуги'
-    }
+    ]  
     
-    return render(request, 'blog/uslugi.html', cont)
+    return render(request, 'blog/uslugi.html', {'servs': servs,'title': 'Услуги'})
