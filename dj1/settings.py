@@ -113,6 +113,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures')
 MEDIA_URL = '/pictures/'
 
+RECIPIENTS_EMAIL = ['sgrigerc@gmail.com']   # замените на свою почту
+DEFAULT_FROM_EMAIL = 'sgrigerc@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

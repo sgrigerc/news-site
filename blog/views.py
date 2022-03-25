@@ -1,13 +1,19 @@
 # from msilib.schema import LockPermissions
+from django.shortcuts import render
+
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse, HttpResponseRedirect
+from dj1.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
+
 from dataclasses import field
 from re import template
-from django.shortcuts import get_object_or_404, render, get_list_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect
 from django.contrib.auth.models import User
 from .models import News, Messages
+from django.contrib import messages
 from .forms import UserAppealForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
 
 class ShowNewsView(ListView):
     model = News
@@ -101,15 +107,42 @@ class CreateNewsView(LoginRequiredMixin, CreateView):
 
 #Страница с контактами
 def contacti(request):
-    if request.method == 'POST':
-        form = UserAppealForm(request.POST)
-        if form.is_valid():
-            messages.success(request, f'Сообщение успешно отправлено!')
-            return redirect('home')
-    else:
-        form = UserAppealForm()
+    
+    def contact_view(request):
+    # если метод GET, вернем форму
+        if request.method == 'GET':
+            form = UserAppealForm()
+        elif request.method == 'POST':
+            # если метод POST, проверим форму и отправим письмо
+            form = UserAppealForm(request.POST)
+            if form.is_valid():
+                subject = form.cleaned_data['subject']
+                from_email = form.cleaned_data['from_email']
+                message = form.cleaned_data['message']
+                try:
+                    send_mail(f'{subject} от {from_email}', message, DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+                except BadHeaderError:
+                    return HttpResponse('Ошибка в теме письма.')
+                return redirect('success')
+        else:
+            return HttpResponse('Неверный запрос.')
+        return render(request, "contacti.html", {'form': form})
+
+def success_view(request):
+    return HttpResponse('Приняли! Спасибо за вашу заявку.')
+    
+    # fields = ['title', 'email', 'text_message']
+    
+    # if request.method == 'POST':
+    #     form = UserAppealForm(request.POST)
+    #     if form.is_valid():
+    #         # form.save()
+    #         messages.success(request, f'Сообщение успешно отправлено!')
+    #         return redirect('home')
+    # else:
+    #     form = UserAppealForm()
         
-    return render(request, 'blog/contacti.html', {'form': form, 'title': 'Сообщения'})
+    # return render(request, 'blog/contacti.html', {'form': form, 'title': 'Сообщения'})
         
 
 def uslugi(request):

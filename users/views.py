@@ -35,7 +35,7 @@ def profile(request):
             updateUserForm.save()
             profileForm.save()
             messages.success(request, f'Ваш аккаунт был успешно обновлен!')
-            return redirect('profile')
+            return redirect('home')
         
     else:
         profileForm = ProfileImageForm(instance=request.user.profile)

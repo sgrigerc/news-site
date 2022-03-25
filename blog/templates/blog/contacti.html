@@ -1,13 +1,35 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-  <h3>{{title}}</h3>
+  <h1 class="text-center">Оставьте заявку</h1>
+    <div class="container text-center">
+      <div id="form_container">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="form-actions form-group ">
+            <button type="submit" class="form-control btn btn-success">Отправить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% comment %} <h3>{{title}}</h3>
   <form action="{% url 'contacti' %}"  method="post" >
-    {% csrf_token %}
-    {{ form.as_p }}
-    <hr>
-    <button type="submit">Отправить</button>
-  </form>
+    <div class="control-group contacti-style">
+      {% csrf_token %}
+      <hr>
+      {{ form.title }}
+      <div class="mt-2">
+        {{ form.email }}
+      </div>
+      <div class="mt-2 contacti-style auth">
+        <h4>Текст сообщения:</h4>
+        {{ form.text_message }}
+      </div>
+      <hr>
+      <button class="btn btn-warning" type="submit">Отправить</button>
+    </div>
+  </form> {% endcomment %}
 {% endblock %}
 
 {% block aside_block %}
