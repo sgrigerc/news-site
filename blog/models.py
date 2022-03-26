@@ -22,6 +22,7 @@ class News(models.Model):
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
 
+
 class Messages(models.Model):
     # Каждое сообщение будет содержать поля:
     # тема, текст сообщения, почта отправителя и дата

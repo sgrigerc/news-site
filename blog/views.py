@@ -129,7 +129,7 @@ def contacti(request):
             # Выводим успешное сообщение
             messages.success(request, 'Сообщение было успешно отправлено')
             # Делаем редирект
-            return redirect('blog-contacti')
+            return redirect('home')
     else:
         # Если пост данные не передаются, то просто
         # создаем объект на основе класса с формой.
