@@ -7,31 +7,16 @@ from django.http import Http404
 from .models import Messages
 from django.contrib.auth.forms import UserCreationForm
 
-class UserAppealForm(forms.Form):
-    
-    subject = forms.CharField(label='Тема', required=True)
-    from_email = forms.EmailField(label='Email', required=True)
-    message = forms.CharField(label='Сообщение', widget=forms.Textarea, required=True)
-    
-    # title = forms.CharField(
-    #     label= 'Тема', 
-    #     max_length=150, 
-    #     required=True,
-    #     widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Theme'})
-    #     )
-    
-    # email = forms.EmailField(
-    #     label='Введите ваш Email',
-    #     required=True,
-    #     widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
-    # )
-    
-    # text_message = forms.CharField(
-    #     max_length=500,
-    #     required=True,
-    #     widget=forms.TextInput(attrs={'style': 'height: 170px;'})
-    #     )
-    
+# Создаем контактную форму
+class UserAppealForm(forms.ModelForm):
+    def __init__(self, *args, **kwards):
+        super(UserAppealForm, self).__init__(*args, **kwards)
+        # Прописываем новые названия для полей
+        self.fields['subject'].label = "Тема письма"
+        self.fields['email'].label = "Ваша почта"
+        self.fields['text'].label = "Текст сообщения"
+
     class Meta:
         model = Messages
-        fields = ['title', 'email', 'text_message']
+        fields = ['subject', 'email', 'text']
+

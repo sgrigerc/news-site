@@ -22,17 +22,14 @@ class News(models.Model):
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
 
-
 class Messages(models.Model):
-    avtor = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE)
-    subject = models.CharField('Тема', max_length=200, unique=True)
-    from_email = models.EmailField('Email')
-    message = models.TextField('Текст сообщения', max_length=500)
-    date = models.DateTimeField('Дата', default=timezone.now)
-    
-    def __str__(self):
-        return f'{self.title}'
+    # Каждое сообщение будет содержать поля:
+    # тема, текст сообщения, почта отправителя и дата
+    subject = models.CharField(max_length=100)
+    text = models.TextField()
+    email = models.EmailField(max_length=100, default="")
+    date = models.DateTimeField(default=timezone.now)
 
-    class Meta:
-        verbose_name = 'Сообщение'
-        verbose_name_plural = 'Сообщения'
+    # При обращении к объекту на основе модели будет выводиться тема сообщения
+    def __str__(self):
+        return self.subject

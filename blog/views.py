@@ -107,29 +107,35 @@ class CreateNewsView(LoginRequiredMixin, CreateView):
 
 #Страница с контактами
 def contacti(request):
-    
-    def contact_view(request):
-    # если метод GET, вернем форму
-        if request.method == 'GET':
-            form = UserAppealForm()
-        elif request.method == 'POST':
-            # если метод POST, проверим форму и отправим письмо
-            form = UserAppealForm(request.POST)
-            if form.is_valid():
-                subject = form.cleaned_data['subject']
-                from_email = form.cleaned_data['from_email']
-                message = form.cleaned_data['message']
-                try:
-                    send_mail(f'{subject} от {from_email}', message, DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
-                except BadHeaderError:
-                    return HttpResponse('Ошибка в теме письма.')
-                return redirect('success')
-        else:
-            return HttpResponse('Неверный запрос.')
-        return render(request, "contacti.html", {'form': form})
+    # Если есть POST данные, то обрабатываем их
+    if request.method == "POST":
+        # Получаем все данные
+        form = UserAppealForm(request.POST)
+        # Проверяем на правильность
+        if form.is_valid():
+            # Если все хорошо, то сохраняем данные в БД,
+            form.save()
 
-def success_view(request):
-    return HttpResponse('Приняли! Спасибо за вашу заявку.')
+            # а также создаем отправку письма.
+            # В качестве значений для письма берем данные из формы
+            subject = form.cleaned_data.get('subject')
+            plain_message = form.cleaned_data.get('text')
+            from_email = f'From <{form.cleaned_data.get("email")}>'
+            to = 'sgrigerc@gmail.com'
+
+            # Отправляем письмо
+            send_mail(subject, plain_message, from_email, [to])
+
+            # Выводим успешное сообщение
+            messages.success(request, 'Сообщение было успешно отправлено')
+            # Делаем редирект
+            return redirect('blog-contacti')
+    else:
+        # Если пост данные не передаются, то просто
+        # создаем объект на основе класса с формой.
+        # И далее все эти данные выводим на странице шаблона
+        form = UserAppealForm()
+        return render(request, 'blog/contacti.html', {'title':'Страничка про нас', 'form': form})
     
     # fields = ['title', 'email', 'text_message']
     
