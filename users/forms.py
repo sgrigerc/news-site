@@ -8,6 +8,7 @@ from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
 
 
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(
         label='Введите Email',
@@ -20,7 +21,7 @@ class UserRegisterForm(UserCreationForm):
         help_text='Нельзя вводить символы: @, /, _',
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите логин'})
     )
-    # some = forms.ModelChoiceField(queryset=User.objects.all())
+    
     password1 = forms.CharField(
         label='Введите пароль',
         required=True,
@@ -36,6 +37,7 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2',]
+
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -54,6 +56,7 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']  
+
 
 
 class ProfileImageForm(forms.ModelForm):

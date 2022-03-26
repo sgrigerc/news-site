@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from email.policy import default
 
+
+
 class News(models.Model):
     title = models.CharField('Название статьи', max_length=100, unique=True)
     text = models.TextField('Основной текст статьи')
@@ -23,14 +25,17 @@ class News(models.Model):
         verbose_name_plural = 'Новости'
 
 
+
 class Messages(models.Model):
-    # Каждое сообщение будет содержать поля:
-    # тема, текст сообщения, почта отправителя и дата
     subject = models.CharField(max_length=100)
     text = models.TextField()
     email = models.EmailField(max_length=100, default="")
     date = models.DateTimeField(default=timezone.now)
 
-    # При обращении к объекту на основе модели будет выводиться тема сообщения
+
     def __str__(self):
         return self.subject
+    
+    class Meta:
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'

@@ -1,19 +1,15 @@
 # from msilib.schema import LockPermissions
-from django.shortcuts import render
-
-from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, HttpResponseRedirect
-from dj1.settings import RECIPIENTS_EMAIL, DEFAULT_FROM_EMAIL
-
-from dataclasses import field
-from re import template
-from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import News, Messages
 from django.contrib import messages
-from .forms import UserAppealForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import News
+from .forms import UserAppealForm
+from django.contrib import messages
+from django.core.mail import send_mail
+
+
 
 class ShowNewsView(ListView):
     model = News
@@ -26,6 +22,7 @@ class ShowNewsView(ListView):
         ctx = super(ShowNewsView, self).get_context_data(**kwargs)
         ctx['title'] = 'Главная страница'
         return ctx
+
 
 
 class UserAllNewsView(ListView):
@@ -44,6 +41,7 @@ class UserAllNewsView(ListView):
         return ctx
 
 
+
 class NewsDetailView(DetailView):
     model = News
     
@@ -52,6 +50,7 @@ class NewsDetailView(DetailView):
         ctx['title'] = News.objects.get(pk=self.kwargs['pk'])
         return ctx
   
+    
     
 class UpdateNewsView(LoginRequiredMixin,UserPassesTestMixin ,UpdateView):
     model = News
@@ -75,6 +74,7 @@ class UpdateNewsView(LoginRequiredMixin,UserPassesTestMixin ,UpdateView):
         return super().form_valid(form)
 
 
+
 class DeleteNewsView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = News
     success_url = '/'
@@ -84,8 +84,8 @@ class DeleteNewsView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         news = self.get_object()
         if self.request.user == news.avtor:
             return True
-        
         return False
+
 
 
 class CreateNewsView(LoginRequiredMixin, CreateView):
@@ -105,51 +105,24 @@ class CreateNewsView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
 
-#Страница с контактами
-def contacti(request):
-    # Если есть POST данные, то обрабатываем их
-    if request.method == "POST":
-        # Получаем все данные
-        form = UserAppealForm(request.POST)
-        # Проверяем на правильность
-        if form.is_valid():
-            # Если все хорошо, то сохраняем данные в БД,
-            form.save()
 
-            # а также создаем отправку письма.
-            # В качестве значений для письма берем данные из формы
+def contacti(request):
+    if request.method == "POST":
+        form = UserAppealForm(request.POST)
+        if form.is_valid():
+            form.save()
             subject = form.cleaned_data.get('subject')
             plain_message = form.cleaned_data.get('text')
             from_email = f'From <{form.cleaned_data.get("email")}>'
             to = 'sgrigerc@gmail.com'
-
-            # Отправляем письмо
             send_mail(subject, plain_message, from_email, [to])
-
-            # Выводим успешное сообщение
-            messages.success(request, 'Сообщение было успешно отправлено')
-            # Делаем редирект
+            messages.success(request, 'Сообщение было успешно отправлено!')
             return redirect('home')
     else:
-        # Если пост данные не передаются, то просто
-        # создаем объект на основе класса с формой.
-        # И далее все эти данные выводим на странице шаблона
         form = UserAppealForm()
-        return render(request, 'blog/contacti.html', {'title':'Страничка про нас', 'form': form})
-    
-    # fields = ['title', 'email', 'text_message']
-    
-    # if request.method == 'POST':
-    #     form = UserAppealForm(request.POST)
-    #     if form.is_valid():
-    #         # form.save()
-    #         messages.success(request, f'Сообщение успешно отправлено!')
-    #         return redirect('home')
-    # else:
-    #     form = UserAppealForm()
-        
-    # return render(request, 'blog/contacti.html', {'form': form, 'title': 'Сообщения'})
-        
+        return render(request, 'blog/contacti.html', {'title':'Страница про нас', 'form': form})
+
+
 
 def uslugi(request):
     servs = [

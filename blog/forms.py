@@ -7,11 +7,11 @@ from django.http import Http404
 from .models import Messages
 from django.contrib.auth.forms import UserCreationForm
 
-# Создаем контактную форму
+
+
 class UserAppealForm(forms.ModelForm):
-    def __init__(self, *args, **kwards):
-        super(UserAppealForm, self).__init__(*args, **kwards)
-        # Прописываем новые названия для полей
+    def __init__(self, *args, **kwargs):
+        super(UserAppealForm, self).__init__(*args, **kwargs)
         self.fields['subject'].label = "Тема письма"
         self.fields['email'].label = "Ваша почта"
         self.fields['text'].label = "Текст сообщения"
